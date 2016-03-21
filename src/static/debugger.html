@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Kreal Debugger</title>
+    <script src="/scripts/kreal.js"></script>
+    <style>
+      body {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="models"></ul>
+    <script>
+      var cont = document.getElementById("models")
+
+      var kr = new Kreal();
+      kr.connect(function (models) {
+        for (var model in models) {
+          cont.innerHTML += "<li>" + model +
+            (function (_m) {
+              _methods = "<ul>";
+              for (var k in _m) {
+                _methods += "<li>" + k + "</li>";
+              }
+              _methods += "</li>";
+              return _methods;
+            }(models[model]))
+            "</li>";
+        }
+      })
+    </script>
+  </body>
+</html>

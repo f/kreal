@@ -1,0 +1,18 @@
+name: kreal
+version: 0.1.0
+
+authors:
+  - Fatih Kadir Akın <fakin@protel.com.tr>
+
+dependencies:
+  kemal:
+    github: sdogruyol/kemal
+    branch: master
+  dyncall:
+    github: f/dyncall
+    branch: master
+  coffee-script:
+    github: jessedoyle/coffee-script
+    branch: master
+
+license: MIT
