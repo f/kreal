@@ -30,6 +30,9 @@ kreal Maths
 get "/" do
   # do not forget to load scripts/kreal.js
 end
+
+# Do not forget to run Kemal.
+Kemal.run
 ```
 
 ### 2. Use your models via JavaScript API.
@@ -42,7 +45,7 @@ Add this to your scripts:
 Call your remote methods via **Kreal** magically.
 ```js
 (new Kreal).connect(function (KR) {
-  
+
   // Call your function with a callback!
   KR.Maths.square(2, function (result) {
     console.log(result); // "Hello World!
@@ -51,7 +54,21 @@ Call your remote methods via **Kreal** magically.
 });
 ```
 
-## A Simple Example
+## Kreal Debugger
+
+Kreal debugger enables itself when Kemal is on debug mode.
+
+```
+crystal build src/yourapp.cr
+
+# Use the parameters of Kemal since it's built on Kemal.
+yourapp -e development
+[development] Kemal is ready to lead at http://0.0.0.0:3000
+```
+
+Now you have a debugging view at [http://0.0.0.0:3000/kreal](http://0.0.0.0:3000/kreal)
+
+### Let's build a simple example
 
 Let's build a simple **OS bridge**!
 

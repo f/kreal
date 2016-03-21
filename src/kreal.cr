@@ -3,6 +3,7 @@ require "dyncall"
 require "coffee-script"
 require "./kreal/*"
 
+KREAL = nil
 macro kreal(*models)
   KREAL = {
   {% for model in models %}
@@ -34,7 +35,7 @@ ws "/kreal" do |socket|
     data = JSON.parse data
     case event
     when "fetch"
-      models = KREAL.keys
+      models = KREAL.not_nil!.keys
       methods = [] of Array(String | Symbol)
       models.each do |model|
         KREAL[model].shared.each do |method|
@@ -50,3 +51,6 @@ ws "/kreal" do |socket|
   end
 end
 
+if Kemal.config.env == "development"
+  debug_kreal
+end
