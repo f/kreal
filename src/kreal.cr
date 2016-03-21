@@ -11,14 +11,17 @@ macro kreal(*models)
   }
 end
 
+path = File.exists?("./libs/kreal") ? "./libs/kreal" : "./src"
+
 macro debug_kreal
-  debugger = File.read("./libs/kreal/static/debugger.html")
+  path = File.exists?("./libs/kreal") ? "./libs/kreal" : "./src"
+  debugger = File.read("#{path}/static/debugger.html")
   get "/kreal" do
     debugger
   end
 end
 
-client = CoffeeScript.compile(File.read("./libs/kreal/static/kreal.coffee"), { bare: true })
+client = CoffeeScript.compile(File.read("#{path}/static/kreal.coffee"), { bare: true })
 
 get "/scripts/kreal.js" do |env|
   env.response.content_type = "application/javascript"
@@ -47,15 +50,3 @@ ws "/kreal" do |socket|
   end
 end
 
-# debug_kreal
-#
-# class Hello
-#   share :world
-#   def self.world(args)
-#     "hello world!"
-#   end
-# end
-#
-# kreal Hello
-#
-# Kemal.run

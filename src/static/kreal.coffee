@@ -10,6 +10,7 @@ class @Kreal
     @socket.onopen = => @socket.send "fetch:fetcher:[]"
     @socket.onmessage = (event)=> @onmessage event
     @socket.onclose = => @connect
+    null
 
   onmessage: (event)->
     json = JSON.parse event.data
