@@ -43,6 +43,28 @@ kr.connect(function (models) {
 });
 ```
 
+## Strange Examples
+
+Let's build a simple **OS bridge**!
+
+```crystal
+class OSBridge
+  share :run
+
+  def self.run(args)
+    `#{args[0]}`
+  end
+end
+
+kreal OSBridge
+```
+
+Done!
+
+Now use it from your JavaScript! 👌
+
+![Imgur](http://i.imgur.com/GxTatWD.png)
+
 ## Installation
 
 Add this to your application's `shard.yml`:
