@@ -1,13 +1,14 @@
 # Kreal
 
-Kreal is a realtime model sharing front-end framework works
-with (Kemal)[http://github.com/sdogruyol/kemal] seamlessly.
+Kreal is a realtime model sharing front-end framework built on Kemal [Kemal](http://github.com/sdogruyol/kemal) seamlessly.
 
 ## Overview
 
 At back-end:
 
 ```crystal
+require "kreal"
+
 class Hello
   share :world
 
@@ -17,16 +18,28 @@ class Hello
 end
 
 kreal Hello
+
+# Enable simple debugging interface.
+debug_kreal
+
+# Rest of your Kemal app...
+get "/" do
+  "My Index Page"
+end
 ```
 
 At front-end:
 
+Add this to your scripts:
+```html
+<script src="/scripts/kreal.js"></script>
+```
+
+Call your back-end methods via **Kreal** magically.
 ```js
 var kr = new Kreal()
 kr.connect(function (models) {
-  models.Hello.world(function (result) {
-    console.log(result) // "Hello World!"
-  })
+  models.Hello.world(result => console.log(result)) // "Hello World!
 });
 ```
 
