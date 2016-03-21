@@ -1,49 +1,57 @@
+<img src="https://cdn.rawgit.com/f/kreal/master/assets/logo.svg" width="90">
+
 # Kreal
 
-Kreal is a realtime model sharing front-end framework built on Kemal [Kemal](http://github.com/sdogruyol/kemal) seamlessly.
+Kreal is a model sharing & RPC library built on and works with [Kemal](http://github.com/sdogruyol/kemal) seamlessly.
 
-## Overview
+## Short Tutorial
 
-At back-end:
+### 1. Create your remote models.
 
 ```crystal
+# 1. Load Kreal!
 require "kreal"
 
-class Hello
-  share :world
+# 2. Create your class
+class Maths
+  # Share your method to call remotely
+  share :square
 
-  def self.world(args)
-    "Hello World!"
+  # Remote method must have arguments.
+  def self.square(args)
+    args[0] * args[0]
   end
 end
 
-kreal Hello
-
-# Enable simple debugging interface.
-debug_kreal
+# Register your remote procedure
+kreal Maths
 
 # Rest of your Kemal app...
 get "/" do
-  "My Index Page"
+  # do not forget to load scripts/kreal.js
 end
 ```
 
-At front-end:
+### 2. Use your models via JavaScript API.
 
 Add this to your scripts:
 ```html
 <script src="/scripts/kreal.js"></script>
 ```
 
-Call your back-end methods via **Kreal** magically.
+Call your remote methods via **Kreal** magically.
 ```js
-var kr = new Kreal()
-kr.connect(function (models) {
-  models.Hello.world(result => console.log(result)) // "Hello World!
+(new Kreal).connect(function (KR) {
+  
+  // Call your function with a callback!
+  KR.Maths.square(2, function (result) {
+    console.log(result); // "Hello World!
+  });
+
 });
 ```
 
-## Strange Examples
+## A Simple Example
 
 Let's build a simple **OS bridge**!
 
@@ -52,6 +60,7 @@ class OSBridge
   share :run
 
   def self.run(args)
+    # Run command at os.
     `#{args[0]}`
   end
 end
@@ -63,7 +72,7 @@ Done!
 
 Now use it from your JavaScript! 👌
 
-![Imgur](http://i.imgur.com/GxTatWD.png)
+<img src="http://i.imgur.com/GxTatWD.png" width="550">
 
 ## Installation
 
@@ -73,18 +82,6 @@ Add this to your application's `shard.yml`:
 dependencies:
   kreal:
     github: f/kreal
-```
-
-## Usage
-
-```crystal
-require "kreal"
-
-# Write your models with shared methods.
-
-kreal YourModel1, YourModel2 #,... Register your models to kreal.
-
-debug_kreal # Run debugging interface at "/kreal" path.
 ```
 
 ## Contributing
