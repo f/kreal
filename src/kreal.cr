@@ -45,7 +45,7 @@ ws "/kreal" do |socket|
       data = {id: id, fetch: methods}
       socket.send data.to_json
     when "call"
-      data = {id: id, call: {result: KREAL[data["model"].to_s].call(data["method"], data["args"].as_a).to_s}}
+      data = {id: id, call: {result: KREAL.not_nil![data["model"].to_s].call(data["method"], data["args"].as_a).to_s}}
       socket.send data.to_json
     end
   end
