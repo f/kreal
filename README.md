@@ -2,7 +2,9 @@
 
 # Kreal
 
-Kreal is a model sharing & RPC library built on and works with [Kemal](http://github.com/sdogruyol/kemal) seamlessly.
+Kreal is a model sharing & RPC library built on and works with [Kemal](http://github.com/sdogruyol/kemal) seamlessly with slick debugging interface.
+
+![Debug](http://i.imgur.com/mNWxlg5.png)
 
 ## Short Tutorial
 
