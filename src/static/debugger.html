@@ -4,6 +4,7 @@
     <script src="/scripts/kreal.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/codemirror.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/addon/display/placeholder.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/mode/crystal/crystal.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/codemirror.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/theme/railscasts.min.css">
     <style>
@@ -117,9 +118,14 @@
           var args = [eval("\"" + argsEditor.getValue().replace(/\"/g, '\"').replace(/\n/g, "\\n") + "\"")];
         }
         args.push(function (r) {
-          editor.setValue(r)
+          var val = r.split(/^---$/mg)
+          editor.setValue(val[0]);
+          if (val.length > 1) {
+            editor.setOption("mode", val[1].trim());
+          } else {
+            editor.setOption("mode", "text/plain");
+          }
         })
-        console.log(args)
         window.kr.models[model][method].apply(null, args)
       }
 
@@ -143,11 +149,13 @@
       })
       var editor = CodeMirror.fromTextArea(resp, {
         theme: "railscasts",
+        mode: "text/plain",
         placeholder: "response will be here"
       });
       var argsEditor = CodeMirror.fromTextArea(_args, {
         theme: "railscasts",
-        placeholder: '"argument 1", "argument 2", ...'
+        mode: "text/plain",
+        placeholder: 'write your arguments here...\n["arg 1", "arg 1"]'
       });
     </script>
   </body>

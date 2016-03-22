@@ -4,8 +4,6 @@
 
 Kreal is a model sharing & RPC library built on and works with [Kemal](http://github.com/sdogruyol/kemal) seamlessly with slick debugging interface.
 
-![Debug](http://i.imgur.com/mNWxlg5.png)
-
 ## Short Tutorial
 
 ### 1. Create your remote models.
@@ -56,9 +54,19 @@ Call your remote methods via **Kreal** magically.
 });
 ```
 
+## Example App
+
+```
+crystal run ./example/example.cr
+```
+
+Open [localhost:3000/kreal](http://localhost:3000/kreal)
+
 ## Kreal Debugger
 
 Kreal debugger enables itself when Kemal is on debug mode.
+
+![Debug](http://i.imgur.com/mNWxlg5.png)
 
 ```
 crystal build src/yourapp.cr
