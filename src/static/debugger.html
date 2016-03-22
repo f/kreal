@@ -2,32 +2,149 @@
   <head>
     <title>Kreal Debugger</title>
     <script src="/scripts/kreal.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/codemirror.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/addon/display/placeholder.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/codemirror.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.0/theme/railscasts.min.css">
     <style>
       body {
+        font-family: "Helvetica Neue", sans-serif;
+        font-size: 15px;
+        padding: 0;
+        margin: 0;
+        background-color: #f3f3f3;
+      }
+      #models, #models ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      #models ul li {
+        display: block;
+        position: relative;
+      }
+      #models ul li a {
+        display: block;
+        text-decoration: none;
         font-family: monospace;
+        padding: 10px;
+      }
+      .CodeMirror-empty {
+        color: #5c5c5c !important;
+      }
+      #models ul li a:hover {
+        background-color: #eee;
+      }
+      aside {
+        float: left;
+        width: 250px;
+        box-sizing: border-box;
+      }
+      aside b {
+        display: block;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: #ccc;
+        position: relative;
+      }
+      small {
+        opacity: 0.5;
+        font-size: 12px;
+        font-family: monospace;
+        font-weight: normal;
+      }
+      aside small {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
+      aside h1 img {
+        -webkit-filter: contrast(0) brightness(100);
+        width: 35px;
+        vertical-align: bottom;
+        margin-right: 7px;
+      }
+
+      aside h1 {
+        padding: 10px;
+        margin: 0;
+        background-color: #B60000;
+        color: #fff;
+        font-weight: lighter;
+        letter-spacing: 1px;
+      }
+      #result {
+        float: left;
+        width: calc(100% - 250px);
+      }
+      .CodeMirror {
+        height: calc(100% - 27px);
+      }
+      #arguments + .CodeMirror{
+        height: 55px;
+        border-bottom: 1px solid #444;
+      }
+      textarea {
+        width: 100%;
       }
     </style>
   </head>
   <body>
-    <ul id="models"></ul>
+    <main>
+      <aside>
+        <h1><img src="https://cdn.rawgit.com/f/kreal/master/assets/logo.svg" alt="">Kreal</h1>
+        <ul id="models"></ul>
+      </aside>
+      <section id="result">
+        <textarea id="arguments" class="args" placeholder="asd"></textarea>
+        <textarea id="response" class="resp"></textarea>
+      </section>
+    </main>
     <script>
       var cont = document.getElementById("models")
-
+      var _args = document.getElementById("arguments")
+      var resp = document.getElementById("response")
       var kr = new Kreal();
+      function caller(model, method) {
+        try {
+          var args = JSON.parse("[" + argsEditor.getValue() + "]")
+        } catch (e) {
+          var args = [eval("\"" + argsEditor.getValue().replace(/\"/g, '\"').replace(/\n/g, "\\n") + "\"")];
+        }
+        args.push(function (r) {
+          editor.setValue(r)
+        })
+        console.log(args)
+        window.kr.models[model][method].apply(null, args)
+      }
+
       kr.connect(function (models) {
         for (var model in models) {
-          cont.innerHTML += "<li>" + model +
-            (function (_m) {
-              _methods = "<ul>";
+          if (!document.getElementById(model + "_model")) {
+            var html = "<li id='"+model+"_model'><b>" + model + "<small>CLASS</small></b><ul id='"+model+"_methods'></ul></li>";
+            cont.innerHTML += html;
+          }
+        }
+        methods = {};
+        for (var model in models) {
+          document.getElementById(model + "_methods").innerHTML = (function (_m) {
+              _methods = "";
               for (var k in _m) {
-                _methods += "<li>" + k + "</li>";
+                _methods += "<li><a href=# onclick='caller(\""+model+"\", \""+k+"\")'>" + k + "</a><small>METHOD</small></li>";
               }
-              _methods += "</li>";
               return _methods;
-            }(models[model]))
-            "</li>";
+          }(models[model]));
         }
       })
+      var editor = CodeMirror.fromTextArea(resp, {
+        lineNumbers: true,
+        theme: "railscasts",
+        placeholder: "Response will be here"
+      });
+      var argsEditor = CodeMirror.fromTextArea(_args, {
+        theme: "railscasts",
+        placeholder: '"argument 1", "argument 2", ...'
+      });
     </script>
   </body>
 </html>

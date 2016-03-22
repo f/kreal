@@ -9,7 +9,7 @@ class @Kreal
     @socket = new WebSocket("#{@server}/kreal")
     @socket.onopen = => @socket.send "fetch:fetcher:[]"
     @socket.onmessage = (event)=> @onmessage event
-    @socket.onclose = => @connect
+    @socket.onclose = => @connect @onconnect
     null
 
   onmessage: (event)->
