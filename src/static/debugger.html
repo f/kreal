@@ -29,6 +29,10 @@
         font-family: monospace;
         padding: 10px;
       }
+      #models ul li a i {
+        font-style: normal;
+        color: #ccc;
+      }
       .CodeMirror-empty {
         color: #5c5c5c !important;
       }
@@ -72,6 +76,7 @@
         color: #fff;
         font-weight: lighter;
         letter-spacing: 1px;
+        line-height: 36px;
       }
       #result {
         float: left;
@@ -130,16 +135,15 @@
           document.getElementById(model + "_methods").innerHTML = (function (_m) {
               _methods = "";
               for (var k in _m) {
-                _methods += "<li><a href=# onclick='caller(\""+model+"\", \""+k+"\")'>" + k + "</a><small>METHOD</small></li>";
+                _methods += "<li><a href=# onclick='caller(\""+model+"\", \""+k+"\")'>" + k + "<i>(args)</i></a><small>METHOD</small></li>";
               }
               return _methods;
           }(models[model]));
         }
       })
       var editor = CodeMirror.fromTextArea(resp, {
-        lineNumbers: true,
         theme: "railscasts",
-        placeholder: "Response will be here"
+        placeholder: "response will be here"
       });
       var argsEditor = CodeMirror.fromTextArea(_args, {
         theme: "railscasts",

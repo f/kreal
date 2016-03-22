@@ -4,6 +4,7 @@ require "coffee-script"
 require "./kreal/*"
 
 _kreal = nil
+
 macro kreal(*models)
   _kreal = {
   {% for model in models %}
@@ -22,7 +23,7 @@ macro debug_kreal
   end
 end
 
-client = CoffeeScript.compile(File.read("#{path}/static/kreal.coffee"), { bare: true })
+client = CoffeeScript.compile(File.read("#{path}/static/kreal.coffee"), {bare: true})
 
 get "/scripts/kreal.js" do |env|
   env.response.content_type = "application/javascript"
@@ -45,7 +46,16 @@ ws "/kreal" do |socket|
       data = {id: id, fetch: methods}
       socket.send data.to_json
     when "call"
-      data = {id: id, call: {result: _kreal.not_nil![data["model"].to_s].call(data["method"], data["args"].as_a).to_s}}
+      begin
+        result = _kreal.not_nil![data["model"].to_s].call(data["method"], data["args"].as_a).to_s
+      rescue e
+        if e.to_s == "Index out of bounds"
+          result = "Possibly not enough arguments for #{data["model"]}\##{data["method"]}\n\nException: #{e.inspect_with_backtrace}"
+        else
+          result = e.inspect_with_backtrace
+        end
+      end
+      data = {id: id, call: {result: result}}
       socket.send data.to_json
     end
   end
