@@ -1,3 +1,5 @@
+# Run `make coffee` after changing this file.
+
 class @Kreal
 
   events: {}
@@ -33,4 +35,5 @@ class @Kreal
     if json.call?
       @events[json.id]?.call(null, json.call.result)
       delete @events[json.id]
+
 

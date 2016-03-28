@@ -1,6 +1,6 @@
 # Create pinger
 class KrealHelp
-  share :ping, :example
+  share_class_methods :ping, :example
 
   def self.example(args)
     <<-HOWTO
@@ -8,7 +8,7 @@ class KrealHelp
     require "kreal"
 
     class Example
-      share :hello_world
+      share_class_methods :hello_world
 
       def self.hello_world(args)
         "Hello \#{args[0]}!"

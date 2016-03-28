@@ -11,8 +11,8 @@ dependencies:
   dyncall:
     github: f/dyncall
     branch: master
-  coffee-script:
-    github: jessedoyle/coffee-script
-    branch: master
+
+scripts:
+  postinstall: "make coffee"
 
 license: MIT
