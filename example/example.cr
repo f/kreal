@@ -1,7 +1,7 @@
 require "../src/kreal"
 
 class Todos
-  share :create, :get
+  share_class_methods :create, :get
 
   def self.file
     "./example/todos.txt"

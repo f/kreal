@@ -10,4 +10,3 @@ if Kemal.config.env == "development"
   # If env is dev, enable debug interface
   debug_kreal
 end
-Kemal.run
