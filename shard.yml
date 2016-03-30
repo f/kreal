@@ -12,7 +12,4 @@ dependencies:
     github: f/dyncall
     branch: master
 
-scripts:
-  postinstall: "make coffee"
-
 license: MIT
