@@ -48,7 +48,7 @@ Call your remote methods via **Kreal** magically.
 
   // Call your function with a callback!
   KR.Maths.square(2, function (result) {
-    console.log(result); // "Hello World!
+    console.log(result); // "4"
   });
 
 });
