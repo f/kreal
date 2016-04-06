@@ -4,7 +4,7 @@
 
 Kreal is a model sharing & RPC library built on and works with [Kemal](http://github.com/sdogruyol/kemal) seamlessly with slick debugging interface.
 
-## Short Tutorial
+## Simple Tutorial
 
 ### 1. Create your remote models.
 
