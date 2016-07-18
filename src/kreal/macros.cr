@@ -1,7 +1,7 @@
 macro kreal(*models)
   $KREAL = {
   {% for model in models %}
-  "{{model.id}}": {{model.id}},
+  "{{model.id}}" => {{model.id}},
   {% end %}
   }
 end
