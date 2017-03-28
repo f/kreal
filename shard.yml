@@ -7,7 +7,7 @@ authors:
 dependencies:
   kemal:
     github: sdogruyol/kemal
-    branch: master
+    version: 0.14.1
   dyncall:
     github: f/dyncall
     branch: master
